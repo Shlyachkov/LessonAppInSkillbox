@@ -49,7 +49,7 @@ void PrintField(field* fieldPlayerA, field* fieldPlayerB)
 }
 
 
-void SetShips(field* field, std::string& str, point& p1, point& p2, int numDeck)
+void SetShips(field* fieldPlayer, std::string& str, point& p1, point& p2, int numDeck)
 {
   if(numDeck == 4)
   {
@@ -62,9 +62,9 @@ void SetShips(field* field, std::string& str, point& p1, point& p2, int numDeck)
         TranslatePointInStreamToPoint(str, p1);
       }
       str.clear();
-      if(field->CheckShip(p1))
+      if(fieldPlayer->CheckShip(p1))
       {
-        field->SetShip(p1);
+        fieldPlayer->SetShip(p1);
         std::cout << "The ship set!\n";
         ++i;
       }
@@ -92,9 +92,9 @@ void SetShips(field* field, std::string& str, point& p1, point& p2, int numDeck)
           TranslatePointInStreamToPoint(str, p2);
         }
         str.clear();
-        if(CalculationlShipLenght(p1, p2) == (5 - numDeck) && field->CheckShip(p1, p2))
+        if(CalculationlShipLenght(p1, p2) == (5 - numDeck) && fieldPlayer->CheckShip(p1, p2))
         {
-          field->SetShip(p1, p2);
+          fieldPlayer->SetShip(p1, p2);
           std::cout << "The ship set!\n";
           ++i;
         }
@@ -107,7 +107,58 @@ void SetShips(field* field, std::string& str, point& p1, point& p2, int numDeck)
   }
 }
 
-void PrepareShips(field* field, std::string& str)
+void SetRandomShips(field* fieldPlayer)
+{
+  point p1 = {};
+  point p2 = {};
+  int x = 0;
+  int y = 0;
+  int dx[4] = {-1, 0, 1, 0};
+  int dy[4] = {0, -1, 0, 1};
+  int cntRandom = 0;
+  srand(time(NULL));
+  for (size_t i = 0; i < 4; ++i)
+  {
+    while (!fieldPlayer->CheckShip(p1))
+    {
+      p1.SetPoint(rand() % 10, rand() % 10);
+    }
+    fieldPlayer->SetShip(p1);
+  }
+  for (size_t i = 0; i < 3; ++i)
+  {
+    while (!fieldPlayer->CheckShip(p1, p2))
+    {
+      x = rand() % 10;
+      y = rand() % 10;
+      cntRandom = rand() % 4;
+      p1.SetPoint(x, y);
+      p2.SetPoint(x + dx[cntRandom], y + dy[cntRandom]);
+    }
+    fieldPlayer->SetShip(p1, p2);
+  }
+  for (size_t i = 0; i < 2; ++i)
+  {
+    while (!fieldPlayer->CheckShip(p1, p2))
+    {
+      x = rand() % 10;
+      y = rand() % 10;
+      p1.SetPoint(x, y);
+      p2.SetPoint(x + (dx[cntRandom]*2), y + (dy[cntRandom]*2));
+    }
+    fieldPlayer->SetShip(p1, p2);
+  }
+  while (!fieldPlayer->CheckShip(p1, p2))
+    {
+      x = rand() % 10;
+      y = rand() % 10;
+      p1.SetPoint(x, y);
+      p2.SetPoint(x + (dx[cntRandom]*3), y + (dy[cntRandom]*3));
+    }
+    fieldPlayer->SetShip(p1, p2);
+}
+
+void PrepareShips(field* fieldPlayer, std::string& str)
 {
   point buffX = {0,0};
   point buffY = {0,0};
@@ -117,8 +168,8 @@ void PrepareShips(field* field, std::string& str)
   int threeDeck = 2;
   int forDeck = 1;
 
-  SetShips(field, str, buffX, buffY, oneDeck);
-  SetShips(field, str, buffX, buffY, twoDeck);
-  SetShips(field, str, buffX, buffY, threeDeck);
-  SetShips(field, str, buffX, buffY, forDeck);
+  SetShips(fieldPlayer, str, buffX, buffY, oneDeck);
+  SetShips(fieldPlayer, str, buffX, buffY, twoDeck);
+  SetShips(fieldPlayer, str, buffX, buffY, threeDeck);
+  SetShips(fieldPlayer, str, buffX, buffY, forDeck);
 }

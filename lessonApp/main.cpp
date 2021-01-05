@@ -13,6 +13,8 @@ int main() {
 
   std::cout << "Welcome to battle ship!\n\n";
 
+  SetRandomShips(playerA);
+
   PrintField(playerA, playerB);
 
   std::cout << "Please, input data ships for first player!\n\n";
