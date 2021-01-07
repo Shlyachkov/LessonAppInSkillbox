@@ -31,7 +31,6 @@ int main() {
 
   std::cout << "Let's start!\n\n";
 
-
   delete playerA;
   delete playerB;
 }

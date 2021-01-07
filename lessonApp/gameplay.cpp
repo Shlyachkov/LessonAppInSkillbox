@@ -109,8 +109,8 @@ void SetShips(field* fieldPlayer, std::string& str, point& p1, point& p2, int nu
 
 void SetRandomShips(field* fieldPlayer)
 {
-  point p1 = {};
-  point p2 = {};
+  point p1 = {-1,-1};
+  point p2 = {-1,-1};
   int x = 0;
   int y = 0;
   int dx[4] = {-1, 0, 1, 0};
@@ -125,6 +125,9 @@ void SetRandomShips(field* fieldPlayer)
     }
     fieldPlayer->SetShip(p1);
   }
+
+  p1.SetPoint(-1,-1);
+
   for (size_t i = 0; i < 3; ++i)
   {
     while (!fieldPlayer->CheckShip(p1, p2))
@@ -137,6 +140,10 @@ void SetRandomShips(field* fieldPlayer)
     }
     fieldPlayer->SetShip(p1, p2);
   }
+
+  p1.SetPoint(-1,-1);
+  p2.SetPoint(-1,-1);
+
   for (size_t i = 0; i < 2; ++i)
   {
     while (!fieldPlayer->CheckShip(p1, p2))
@@ -148,6 +155,10 @@ void SetRandomShips(field* fieldPlayer)
     }
     fieldPlayer->SetShip(p1, p2);
   }
+
+  p1.SetPoint(-1,-1);
+  p2.SetPoint(-1,-1);
+
   while (!fieldPlayer->CheckShip(p1, p2))
     {
       x = rand() % 10;
@@ -156,6 +167,9 @@ void SetRandomShips(field* fieldPlayer)
       p2.SetPoint(x + (dx[cntRandom]*3), y + (dy[cntRandom]*3));
     }
     fieldPlayer->SetShip(p1, p2);
+
+  p1.SetPoint(-1,-1);
+  p2.SetPoint(-1,-1);
 }
 
 void PrepareShips(field* fieldPlayer, std::string& str)

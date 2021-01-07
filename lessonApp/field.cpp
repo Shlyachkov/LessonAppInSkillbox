@@ -44,13 +44,17 @@ void field::SetShip(point& p1, point& p2)
   }
 }
 
-bool field::CheckShip(point &p)
+bool field::CheckShip(point& p)
 {
   bool result = true;
-  if(_field[p.GetX()][p.GetY()] != status::EMPTY)
+
+  if(_field[p.GetX()][p.GetY()] != status::EMPTY || 
+  ((p.GetX() < 0 || p.GetX() > 9) || (p.GetY() < 0 || p.GetY() > 9)))
     return false;
+
   int x[8] = {-1, -1, -1, 0, 1, 1, 1, 0};
   int y[8] = {-1, 0, 1, 1, 1, 0, -1, -1};
+
   for(int cnt = 0; cnt < 8; ++cnt)
   {
     if(((p.GetX() + x[cnt]) < 0 || (p.GetX() + x[cnt]) > 9) || ((p.GetY() + y[cnt]) < 0 || (p.GetY() + y[cnt]) > 9))
@@ -69,7 +73,9 @@ bool field::CheckShip(point& p1, point& p2)
   
   if(p1.GetX() == p2.GetX())
   {
-    for(cnt = p1.GetY(); cnt < p2.GetY(); ++cnt)
+    int dy = (p1.GetY() > p2.GetY() ? -1 : 1);
+    
+    for(cnt = p1.GetY(); cnt != p2.GetY(); cnt+=dy)
     {
       dir.SetPoint(p1.GetX(), cnt);
       if(!this->CheckShip(dir))
@@ -82,7 +88,9 @@ bool field::CheckShip(point& p1, point& p2)
   }
   else
   {
-    for(cnt = p1.GetX(); cnt < p2.GetX(); ++cnt)
+    int dx = (p1.GetX() > p2.GetX() ? -1 : 1);
+
+    for(cnt = p1.GetX(); cnt != p2.GetX(); cnt+=dx)
     {
       dir.SetPoint(cnt, p1.GetY());
       if(!this->CheckShip(dir))
