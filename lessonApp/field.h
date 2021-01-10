@@ -23,6 +23,12 @@ public:
 
   status Get(int x, int y);
 
+  const char* GetStatus(point& p);
+
+  bool CheckFieldOnFullDamage();
+
+  void SetPlayerMove(point& p);
+
 
 private:
 

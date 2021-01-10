@@ -11,3 +11,7 @@ void SetShips(field* fieldPlayer, std::string& str, point& p1, point& p2, int nu
 void SetRandomShips(field* fieldPlayer);
 
 void PrepareShips(field* fieldPlayer, std::string& str);
+
+
+
+int Run(field* fieldPlayerA, field* fieldPlayerB, std::string& str);

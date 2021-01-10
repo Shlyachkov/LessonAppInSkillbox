@@ -36,9 +36,6 @@ char result = ' ';
       result =  '.';
       break;
     case status::INJURED:
-      result =  '*';
-      break;
-    case status::KILLED:
       result =  'X';
       break;
     default:

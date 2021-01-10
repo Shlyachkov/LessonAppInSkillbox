@@ -108,3 +108,55 @@ status field::Get(int x, int y)
 {
   return _field[x][y];
 }
+
+const char* field::GetStatus(point& p)
+{
+  int x = p.GetX();
+  int y = p.GetY();
+  status flg = this->Get(x,y);
+  const char* result = "";
+  switch (flg)
+  {
+  case status::THERE_WAS_A_SHOT:
+    result = "past";
+    break;
+  case status::ENTIRE :
+    result =  "entire";
+    break;
+  case status::INJURED:
+    result = "injured";
+    break;
+  default:
+    break;
+  }
+  return result;
+}
+
+bool field::CheckFieldOnFullDamage()
+{
+  for(int x = 0; x < 10; ++x)
+  {
+    for(int y = 0; y < 10; ++y)
+    {
+      if(_field[x][y] == status::ENTIRE)
+      return false;
+    }
+  }
+  return true;
+}
+void field::SetPlayerMove(point& p)
+{
+  status move = this->Get(p.GetX(), p.GetY());
+
+  switch (move)
+  {
+  case status::EMPTY:
+    _field[p.GetX()][p.GetY()] = status::THERE_WAS_A_SHOT;
+    break;
+  case status::ENTIRE:
+    _field[p.GetX()][p.GetY()] = status::INJURED;
+    break;
+  default:
+    break;
+  }
+}

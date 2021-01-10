@@ -105,6 +105,7 @@ void SetShips(field* fieldPlayer, std::string& str, point& p1, point& p2, int nu
       p2.SetPoint(0, 0);
     }
   }
+  str.clear();
 }
 
 void SetRandomShips(field* fieldPlayer)
@@ -186,4 +187,77 @@ void PrepareShips(field* fieldPlayer, std::string& str)
   SetShips(fieldPlayer, str, buffX, buffY, twoDeck);
   SetShips(fieldPlayer, str, buffX, buffY, threeDeck);
   SetShips(fieldPlayer, str, buffX, buffY, forDeck);
+}
+
+
+
+int Run(field* fieldPlayerA, field* fieldPlayerB, std::string& str)
+{
+  point newMove = {-1,-1};
+  bool orderPlayerA = true;
+  bool orderPlayerB = true;
+
+  while( !fieldPlayerA->CheckFieldOnFullDamage() && !fieldPlayerB->CheckFieldOnFullDamage() )
+  {
+
+    if(orderPlayerA)
+    {
+      while (!CheckPointInStream(str))
+      {
+        std::cout << "Input player's A move: ";
+        std::cin >> str;
+      }
+      TranslatePointInStreamToPoint(str, newMove);
+      fieldPlayerB->SetPlayerMove(newMove);
+      PrintField(fieldPlayerA, fieldPlayerB);
+      std::cout << "Player A was move " << str << " and his move result was " << fieldPlayerB->GetStatus(newMove) << "\n";
+
+      if (fieldPlayerB->Get(newMove.GetX(), newMove.GetY()) == status::INJURED)
+      {
+        orderPlayerA = true;
+        orderPlayerB = false;
+      }
+
+      else
+      {
+        orderPlayerA = false;
+        orderPlayerB = true;
+      }
+
+      str.clear();
+    }
+
+    if(orderPlayerB)
+    {
+      while (!CheckPointInStream(str))
+      {
+        std::cout << "Input player's B move: ";
+        std::cin >> str;
+      }
+      TranslatePointInStreamToPoint(str, newMove);
+      fieldPlayerA->SetPlayerMove(newMove);
+      PrintField(fieldPlayerA, fieldPlayerB);
+      std::cout << "Player B was move " << str << " and his move result was " << fieldPlayerA->GetStatus(newMove) << "\n";
+
+      if (fieldPlayerA->Get(newMove.GetX(), newMove.GetY()) == status::INJURED)
+      {
+        orderPlayerB = true;
+        orderPlayerA = false;
+      }
+
+      else
+      {
+        orderPlayerB = false;
+        orderPlayerA = true;
+      }
+
+      str.clear();
+    }
+  }
+
+  if(fieldPlayerA->CheckFieldOnFullDamage())
+    return 1;
+  else if(fieldPlayerB->CheckFieldOnFullDamage())
+    return 2;
+  return -1;
 }

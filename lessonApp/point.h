@@ -6,8 +6,7 @@ enum status
   EMPTY,
   THERE_WAS_A_SHOT,
   ENTIRE,
-  INJURED,
-  KILLED
+  INJURED
 };
 
 class point
